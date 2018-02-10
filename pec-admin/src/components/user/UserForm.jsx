@@ -5,7 +5,7 @@ import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
 import Input from 'antd/lib/input';
 
-import RoleSelect from './RoleSelect';
+import RoleSelect from '../role/RoleSelect';
 
 const FormItem = Form.Item;
 

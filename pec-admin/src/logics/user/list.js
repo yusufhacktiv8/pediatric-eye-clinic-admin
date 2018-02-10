@@ -7,14 +7,16 @@ import * as actions from '../../actions';
 
 const USERS_URL = `${constant.serverUrl}/api/users`;
 
+console.log(actions.user.list.fetch);
+
 const fetchLogic = createLogic({
-  type: actions.user.list.fetchData,
-  cancelType: actions.user.list.cancelFetchData,
+  type: actions.user.list.fetch,
+  cancelType: actions.user.list.cancelFetch,
   latest: true,
   process({ getState, action }, dispatch, done) {
     axios.get(USERS_URL, { params: { r: random() } })
       .then(resp => resp.data)
-      .then(ysc => dispatch({ type: actions.user.list.loadData, payload: ysc }))
+      .then(ysc => dispatch({ type: actions.user.list.load, payload: ysc }))
       .catch((err) => {
         console.error(err);
         notification.error({

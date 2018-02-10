@@ -1,7 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Select from 'antd/lib/select';
+import { Select } from 'antd';
 
 const Option = Select.Option;
 
@@ -29,15 +28,4 @@ RoleSelect.propTypes = {
   onSelect: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => (
-  {
-    roles: state.userReducers.roles,
-  }
-);
-
-const RoleSelectWrapper = connect(
-  mapStateToProps,
-  null,
-)(RoleSelect);
-
-export default RoleSelectWrapper;
+export default RoleSelect;
