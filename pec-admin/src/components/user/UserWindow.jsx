@@ -1,32 +1,30 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Modal from 'antd/lib/modal';
-import UserForm from './UserForm';
+import { Modal, Form, Input } from 'antd';
 
-const UserWindow = ({
-  visible,
-  onOk,
-  onCancel,
-  confirmLoading,
-  ...otherProps
-}) => (
-  <Modal
-    title="Add User"
-    visible={visible}
-    okText="Save"
-    onOk={onOk}
-    confirmLoading={confirmLoading}
-    onCancel={onCancel}
-  >
-    <UserForm {...otherProps} />
-  </Modal>
-);
+const FormItem = Form.Item;
 
-UserWindow.propTypes = {
-  visible: PropTypes.bool.isRequired,
-  onOk: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  confirmLoading: PropTypes.bool.isRequired,
+const UserWindow = ({ visible, onCancel, onCreate, form }) => {
+  const { getFieldDecorator } = form;
+
+  return (
+    <Modal
+      visible={visible}
+      title="Create a new user"
+      okText="Create"
+      onCancel={onCancel}
+      onOk={onCreate}
+    >
+      <Form layout="vertical">
+        <FormItem label="Username">
+          {getFieldDecorator('userName', {
+            rules: [{ required: true, message: 'Please input the username' }],
+          })(
+            <Input />,
+          )}
+        </FormItem>
+      </Form>
+    </Modal>
+  );
 };
 
-export default UserWindow;
+export default Form.create()(UserWindow);

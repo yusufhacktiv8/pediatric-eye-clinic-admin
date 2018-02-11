@@ -2,6 +2,26 @@
   height: 100%;
 }
 
+.page-header {
+  height: 50px;
+  width: 100%;
+  background-color: #FFF;
+  border-bottom: 1px solid #E8E8E8;
+  padding: 0 20px;
+  line-height: 35px;
+}
+
+.page-header span {
+  font-weight: bold;
+  font-size: 20px;
+  color: gray;
+}
+
+.page-content {
+  padding: 20px;
+  background-color: #FFF;
+}
+
 .ant-menu-horizontal > .ant-menu-item > a {
   color: inherit;
 }

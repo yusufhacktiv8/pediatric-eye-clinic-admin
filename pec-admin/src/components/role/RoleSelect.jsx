@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Select } from 'antd';
 
 const Option = Select.Option;
@@ -16,16 +15,5 @@ const RoleSelect = ({ roles, value, onSelect }) => (
     ))}
   </Select>
 );
-
-RoleSelect.propTypes = {
-  roles: PropTypes.arrayOf(
-    PropTypes.shape({
-      code: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  value: PropTypes.number.isRequired,
-  onSelect: PropTypes.func.isRequired,
-};
 
 export default RoleSelect;
