@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 
-const { Header, Footer, Content } = Layout;
+const { Header, Content } = Layout;
 const SubMenu = Menu.SubMenu;
 
 class Workspace extends Component {
@@ -32,7 +32,6 @@ class Workspace extends Component {
             <Menu.Item key="patients">
               <Link
                 to="/patients" onClick={() => {
-                  console.log('patients...');
                   this.setState({
                     selectedKeys: ['patients'],
                   });
@@ -54,7 +53,14 @@ class Workspace extends Component {
                 ><Icon type="user" />User</Link>
               </Menu.Item>
               <Menu.Item key="roles">
-                <Link to="/roles"><Icon type="idcard" />Roles</Link>
+                <Link
+                  to="/roles"
+                  onClick={() => {
+                    this.setState({
+                      selectedKeys: ['roles'],
+                    });
+                  }}
+                ><Icon type="idcard" />Roles</Link>
               </Menu.Item>
             </SubMenu>
             <SubMenu title={<span><Icon type="setting" />Settings</span>}>
@@ -73,7 +79,6 @@ class Workspace extends Component {
         <Content style={{ backgroundColor: '#FFF' }}>
           {this.props.children}
         </Content>
-        <Footer>Footer</Footer>
       </Layout>
     );
   }

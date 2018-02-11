@@ -2,38 +2,38 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Table, Button, Input, Row, Col, message, Popconfirm } from 'antd';
 import constant from '../../constant';
-import UserWindow from './UserWindow';
+import RoleWindow from './RoleWindow';
 
-const USERS_URL = `${constant.serverUrl}/users`;
+const ROLES_URL = `${constant.serverUrl}/roles`;
 const Column = Table.Column;
 
-class UserList extends Component {
+class RoleList extends Component {
   state = {
     searchText: '',
-    user: {},
-    users: [],
+    role: {},
+    roles: [],
     loading: false,
     count: 0,
     currentPage: 1,
     pageSize: 10,
-    userWindowVisible: false,
+    roleWindowVisible: false,
   }
   componentDidMount() {
-    this.getUsers();
+    this.getRoles();
   }
 
-  getUsers() {
+  getRoles() {
     this.setState({
       loading: true,
     });
-    axios.get(USERS_URL, { params: {
+    axios.get(ROLES_URL, { params: {
       searchText: this.state.searchText,
       start: (this.state.currentPage - 1) * this.state.pageSize,
       count: this.state.pageSize,
     } })
       .then((response) => {
         this.setState({
-          users: response.data.users,
+          roles: response.data.roles,
           count: response.data.count,
           loading: false,
         });
@@ -43,14 +43,14 @@ class UserList extends Component {
       });
   }
 
-  saveUser(user) {
+  saveRole(role) {
     const hide = message.loading('Action in progress..', 0);
-    axios.post(USERS_URL, user)
+    axios.post(ROLES_URL, role)
       .then(() => {
         hide();
         this.handleCancel();
-        this.getUsers();
-        message.success('Save user success');
+        this.getRoles();
+        message.success('Save role success');
       })
       .catch((error) => {
         hide();
@@ -58,13 +58,13 @@ class UserList extends Component {
       });
   }
 
-  deleteUser(user) {
+  deleteRole(role) {
     const hide = message.loading('Action in progress..', 0);
-    axios.delete(`${USERS_URL}/${user.email}`)
+    axios.delete(`${ROLES_URL}/${role.code}`)
       .then(() => {
         hide();
-        this.getUsers();
-        message.success('Delete user success');
+        this.getRoles();
+        message.success('Delete role success');
       })
       .catch((error) => {
         hide();
@@ -74,35 +74,35 @@ class UserList extends Component {
 
   openEditWindow(record) {
     this.setState({
-      user: record,
-      userWindowVisible: true,
+      role: record,
+      roleWindowVisible: true,
     });
   }
 
   handleCancel() {
     this.setState({
-      userWindowVisible: false,
+      roleWindowVisible: false,
     });
-    this.userWindow.resetFields();
+    this.roleWindow.resetFields();
   }
 
   handleCreate() {
-    this.userWindow.validateFields((err, values) => {
+    this.roleWindow.validateFields((err, values) => {
       if (err) {
         return;
       }
 
       // console.log('Received values of form: ', values);
-      this.saveUser(values);
-      this.userWindow.resetFields();
-      this.setState({ userWindowVisible: false });
+      this.saveRole(values);
+      this.roleWindow.resetFields();
+      this.setState({ roleWindowVisible: false });
     });
   }
 
   pageChanged(page) {
     this.setState({
       currentPage: page,
-    }, () => { this.getUsers(); });
+    }, () => { this.getRoles(); });
   }
 
   render() {
@@ -117,7 +117,7 @@ class UserList extends Component {
                   searchText: e.target.value,
                 });
               }}
-              placeholder="Email or name"
+              placeholder="Code or name"
             />
           </Col>
           <Col span={16}>
@@ -125,7 +125,7 @@ class UserList extends Component {
               <Button
                 shape="circle"
                 icon="search"
-                onClick={() => this.getUsers()}
+                onClick={() => this.getRoles()}
                 style={{ marginRight: 15 }}
               />
               <Button
@@ -140,7 +140,7 @@ class UserList extends Component {
         <Row>
           <Col span={24}>
             <Table
-              dataSource={this.state.users}
+              dataSource={this.state.roles}
               style={{ marginTop: 20 }}
               rowKey="id"
               loading={this.state.loading}
@@ -153,9 +153,9 @@ class UserList extends Component {
               size="small"
             >
               <Column
-                title="Email"
-                dataIndex="email"
-                key="email"
+                title="Code"
+                dataIndex="code"
+                key="code"
               />
               <Column
                 title="Name"
@@ -174,8 +174,8 @@ class UserList extends Component {
                       style={{ marginRight: 5 }}
                     />
                     <Popconfirm
-                      title={`Are you sure delete user ${record.name}`}
-                      onConfirm={() => this.deleteUser(record)}
+                      title={`Are you sure delete role ${record.name}`}
+                      onConfirm={() => this.deleteRole(record)}
                       okText="Yes" cancelText="No"
                     >
                       <Button
@@ -191,16 +191,16 @@ class UserList extends Component {
           </Col>
         </Row>
 
-        <UserWindow
-          visible={this.state.userWindowVisible}
+        <RoleWindow
+          visible={this.state.roleWindowVisible}
           onCreate={() => this.handleCreate()}
           onCancel={() => this.handleCancel()}
-          user={this.state.user}
-          ref={userWindow => (this.userWindow = userWindow)}
+          role={this.state.role}
+          ref={roleWindow => (this.roleWindow = roleWindow)}
         />
       </div>
     );
   }
 }
 
-export default UserList;
+export default RoleList;

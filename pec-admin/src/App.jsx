@@ -9,6 +9,7 @@ import './App.css';
 
 import Workspace from './components/workspace/Workspace';
 import UserPage from './components/user/UserPage';
+import RolePage from './components/role/RolePage';
 
 class App extends Component {
   render() {
@@ -17,6 +18,7 @@ class App extends Component {
         <Router>
           <Workspace>
             <Route exact path="/" component={UserPage} />
+            <Route exact path="/roles" component={RolePage} />
           </Workspace>
         </Router>
       </div>
