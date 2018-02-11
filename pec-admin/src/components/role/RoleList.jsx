@@ -43,6 +43,12 @@ class RoleList extends Component {
       });
   }
 
+  filterRoles() {
+    this.setState({
+      currentPage: 1,
+    }, () => { this.getRoles(); });
+  }
+
   saveRole(role) {
     const hide = message.loading('Action in progress..', 0);
     axios.post(ROLES_URL, role)
@@ -125,7 +131,7 @@ class RoleList extends Component {
               <Button
                 shape="circle"
                 icon="search"
-                onClick={() => this.getRoles()}
+                onClick={() => this.filterRoles()}
                 style={{ marginRight: 15 }}
               />
               <Button

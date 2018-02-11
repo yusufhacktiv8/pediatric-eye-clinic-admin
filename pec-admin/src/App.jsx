@@ -18,6 +18,7 @@ class App extends Component {
         <Router>
           <Workspace>
             <Route exact path="/" component={UserPage} />
+            <Route exact path="/users" component={UserPage} />
             <Route exact path="/roles" component={RolePage} />
           </Workspace>
         </Router>

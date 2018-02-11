@@ -43,6 +43,12 @@ class UserList extends Component {
       });
   }
 
+  filterUsers() {
+    this.setState({
+      currentPage: 1,
+    }, () => { this.getUsers(); });
+  }
+
   saveUser(user) {
     const hide = message.loading('Action in progress..', 0);
     axios.post(USERS_URL, user)
@@ -125,7 +131,7 @@ class UserList extends Component {
               <Button
                 shape="circle"
                 icon="search"
-                onClick={() => this.getUsers()}
+                onClick={() => this.filterUsers()}
                 style={{ marginRight: 15 }}
               />
               <Button
