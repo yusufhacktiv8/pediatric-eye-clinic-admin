@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Table, Button, Input, Row, Col } from 'antd';
+import { Table, Button, Input, Row, Col, message, Popconfirm } from 'antd';
 import constant from '../../constant';
+import UserWindow from './UserWindow';
 
 const USERS_URL = `${constant.serverUrl}/users`;
 const Column = Table.Column;
@@ -9,26 +10,89 @@ const Column = Table.Column;
 class UserList extends Component {
   state = {
     searchText: '',
+    user: {},
     users: [],
     loading: false,
     count: 0,
     currentPage: 0,
     pageSize: 10,
+    userWindowVisible: false,
   }
   componentDidMount() {
     this.getUsers();
   }
 
   getUsers() {
-    axios.get(USERS_URL)
+    this.setState({
+      loading: true,
+    });
+    axios.get(USERS_URL, { params: { searchText: this.state.searchText } })
       .then((response) => {
         this.setState({
-          users: response.data,
+          users: response.data.users,
+          count: response.data.count,
+          loading: false,
         });
       })
       .catch((error) => {
         console.error(error);
       });
+  }
+
+  saveUser(user) {
+    const hide = message.loading('Action in progress..', 0);
+    axios.post(USERS_URL, user)
+      .then(() => {
+        hide();
+        this.handleCancel();
+        this.getUsers();
+        message.success('Save user success');
+      })
+      .catch((error) => {
+        hide();
+        console.error(error);
+      });
+  }
+
+  deleteUser(user) {
+    const hide = message.loading('Action in progress..', 0);
+    axios.delete(`${USERS_URL}/${user.email}`)
+      .then(() => {
+        hide();
+        this.getUsers();
+        message.success('Delete user success');
+      })
+      .catch((error) => {
+        hide();
+        console.error(error);
+      });
+  }
+
+  openEditWindow(record) {
+    this.setState({
+      user: record,
+      userWindowVisible: true,
+    });
+  }
+
+  handleCancel() {
+    this.setState({
+      userWindowVisible: false,
+    });
+    this.userWindow.resetFields();
+  }
+
+  handleCreate() {
+    this.userWindow.validateFields((err, values) => {
+      if (err) {
+        return;
+      }
+
+      // console.log('Received values of form: ', values);
+      this.saveUser(values);
+      this.userWindow.resetFields();
+      this.setState({ userWindowVisible: false });
+    });
   }
 
   render() {
@@ -43,7 +107,7 @@ class UserList extends Component {
                   searchText: e.target.value,
                 });
               }}
-              placeholder="Email"
+              placeholder="Email or name"
             />
           </Col>
           <Col span={16}>
@@ -58,7 +122,7 @@ class UserList extends Component {
                 type="primary"
                 shape="circle"
                 icon="plus"
-                onClick={() => console.log('plus')}
+                onClick={() => this.openEditWindow({})}
               />
             </span>
           </Col>
@@ -94,21 +158,34 @@ class UserList extends Component {
                 render={(text, record) => (
                   <span>
                     <Button
-                      icon="edit"
+                      icon="ellipsis"
                       onClick={() => this.openEditWindow(record)}
                       style={{ marginRight: 5 }}
                     />
-                    <Button
-                      type="danger"
-                      icon="delete"
-                      onClick={() => this.confirmDelete(record)}
-                    />
+                    <Popconfirm
+                      title={`Are you sure delete user ${record.name}`}
+                      onConfirm={() => this.deleteUser(record)}
+                      okText="Yes" cancelText="No"
+                    >
+                      <Button
+                        type="danger"
+                        icon="delete"
+                      />
+                    </Popconfirm>
                   </span>
                 )}
               />
             </Table>
           </Col>
         </Row>
+
+        <UserWindow
+          visible={this.state.userWindowVisible}
+          onCreate={() => this.handleCreate()}
+          onCancel={() => this.handleCancel()}
+          user={this.state.user}
+          ref={userWindow => (this.userWindow = userWindow)}
+        />
       </div>
     );
   }
