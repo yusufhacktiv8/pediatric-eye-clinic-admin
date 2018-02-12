@@ -14,7 +14,7 @@ class Workspace extends Component {
     return (
       <Layout style={{ height: '100%' }}>
         <Header style={{ backgroundColor: '#FFF', padding: 0, lineHeight: 1, height: 90 }}>
-          <div style={{ width: '100%', height: 35, padding: 15, paddingTop: 17 }}>
+          <div style={{ width: '100%', height: 35, padding: 15, paddingTop: 17, marginBottom: 4 }}>
             <span style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', border: '1px dotted silver', borderRadius: 50, padding: 7 }}>
               <Icon type="smile-o" style={{ marginRight: 5, color: 'gray', fontSize: 17 }} />
               <span style={{ color: 'gray' }}>Pediatric</span>
@@ -80,7 +80,14 @@ class Workspace extends Component {
                   <Link to="/occupations"><Icon type="woman" />Occupations</Link>
                 </Menu.Item>
                 <Menu.Item key="insurances">
-                  <Link to="/insurances"><Icon type="medicine-box" />Insurances</Link>
+                  <Link
+                    to="/insurances"
+                    onClick={() => {
+                      this.setState({
+                        selectedKeys: ['insurances'],
+                      });
+                    }}
+                  ><Icon type="medicine-box" />Insurances</Link>
                 </Menu.Item>
               </SubMenu>
             </Menu>
