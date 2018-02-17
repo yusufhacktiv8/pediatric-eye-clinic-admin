@@ -13,6 +13,7 @@ import RolePage from './components/role/RolePage';
 import InsurancePage from './components/insurance/InsurancePage';
 import OccupationPage from './components/occupation/OccupationPage';
 import DiseasePage from './components/disease/DiseasePage';
+import PatientPage from './components/patient/PatientPage';
 
 // class App extends Component {
 //   render() {
@@ -41,6 +42,7 @@ export default () => (
         <Route exact path="/insurances" component={InsurancePage} />
         <Route exact path="/occupations" component={OccupationPage} />
         <Route exact path="/diseases" component={DiseasePage} />
+        <Route exact path="/patients" component={PatientPage} />
       </Workspace>
     </Router>
   </div>
