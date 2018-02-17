@@ -100,7 +100,7 @@ class PatientList extends Component {
 
       // console.log('Received values of form: ', values);
       this.savePatient(values);
-      this.patientWindow.resetFields();
+      // this.patientWindow.resetFields();
       this.setState({ patientWindowVisible: false });
     });
   }
