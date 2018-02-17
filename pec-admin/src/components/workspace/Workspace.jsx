@@ -41,7 +41,8 @@ class Workspace extends Component {
                 </Menu.Item>
                 <Menu.Item key="patients">
                   <Link
-                    to="/patients" onClick={() => {
+                    to="/patients"
+                    onClick={() => {
                       this.setState({
                         selectedKeys: ['patients'],
                       });
@@ -49,7 +50,14 @@ class Workspace extends Component {
                   ><Icon type="contacts" />Patient</Link>
                 </Menu.Item>
                 <Menu.Item key="medicalRecords">
-                  <Link to="/medicalrecords"><Icon type="profile" />Medical Records</Link>
+                  <Link
+                    to="/medicalrecords"
+                    onClick={() => {
+                      this.setState({
+                        selectedKeys: ['medicalRecords'],
+                      });
+                    }}
+                  ><Icon type="profile" />Medical Records</Link>
                 </Menu.Item>
                 <SubMenu title={<span><Icon type="lock" />Security</span>}>
                   <Menu.Item key="users">
