@@ -76,7 +76,7 @@ const PatientWindow = ({ visible, onCancel, onCreate, form, patient }) => {
             </FormItem>
             <FormItem label="Father Occupation">
               {getFieldDecorator('fatherOccupation', {
-                initialValue: patient.fatherOccupation ? patient.fatherOccupation.id : null,
+                initialValue: patient.fatherOccupation && patient.fatherOccupation.id > 0 ? patient.fatherOccupation : { id: undefined },
               })(
                 <OccupationSelect />,
               )}

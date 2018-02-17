@@ -8,10 +8,15 @@ const Option = Select.Option;
 const OCCUPATIONS_URL = `${constant.serverUrl}/occupations_all`;
 
 class OccupationSelect extends Component {
-  state = {
-    occupations: [],
-    selectedOccupation: null,
-    loading: false,
+  constructor(props) {
+    super(props);
+
+    const value = this.props.value || {};
+    this.state = {
+      occupations: [],
+      id: value.id,
+      loading: false,
+    };
   }
 
   componentDidMount() {
@@ -21,7 +26,13 @@ class OccupationSelect extends Component {
   componentWillReceiveProps(nextProps) {
     if ('value' in nextProps) {
       const value = nextProps.value;
-      this.setState(value);
+      if (value) {
+        this.setState(value);
+      } else {
+        this.setState({
+          id: undefined,
+        });
+      }
     }
   }
 
@@ -43,7 +54,7 @@ class OccupationSelect extends Component {
 
   handleChange(value) {
     const temp = {
-      selectedOccupation: value,
+      id: value,
     };
 
     this.setState(temp);
@@ -53,13 +64,14 @@ class OccupationSelect extends Component {
   triggerChange = (changedValue) => {
     const onChange = this.props.onChange;
     if (onChange) {
-      onChange(Object.assign({}, this.state, changedValue));
+      onChange(Object.assign({}, changedValue));
     }
   }
 
   render() {
     return (
       <Select
+        value={this.state.id}
         showSearch
         style={{ width: 200 }}
         placeholder="Select Occupation"
@@ -70,7 +82,7 @@ class OccupationSelect extends Component {
       >
         {
           this.state.occupations.map(occupation => (
-            <Option value={occupation.code}>{occupation.name}</Option>
+            <Option key={occupation.id} value={occupation.id}>{occupation.name}</Option>
           ))
         }
       </Select>
