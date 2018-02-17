@@ -47,7 +47,7 @@ class Workspace extends Component {
                         selectedKeys: ['patients'],
                       });
                     }}
-                  ><Icon type="contacts" />Patient</Link>
+                  ><Icon type="contacts" />Patients</Link>
                 </Menu.Item>
                 <Menu.Item key="medicalRecords">
                   <Link
@@ -68,7 +68,7 @@ class Workspace extends Component {
                           selectedKeys: ['users'],
                         });
                       }}
-                    ><Icon type="user" />User</Link>
+                    ><Icon type="user" />Users</Link>
                   </Menu.Item>
                   <Menu.Item key="roles">
                     <Link
@@ -100,7 +100,7 @@ class Workspace extends Component {
                           selectedKeys: ['occupations'],
                         });
                       }}
-                    ><Icon type="woman" />Occupation</Link>
+                    ><Icon type="woman" />Occupations</Link>
                   </Menu.Item>
                   <Menu.Item key="insurances">
                     <Link

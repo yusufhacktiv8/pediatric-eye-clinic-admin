@@ -1,11 +1,21 @@
 import React from 'react';
 import { Modal, Form, Input } from 'antd';
+import PatientSelect from '../patient/PatientSelect';
 
 const FormItem = Form.Item;
 
+const checkPatient = (rule, value, callback) => {
+  if (value.id > 0) {
+    callback();
+    return;
+  }
+  callback('Please input the patient');
+};
+
 const MedicalRecordWindow = ({ visible, onCancel, onCreate, form, medicalRecord }) => {
   const { getFieldDecorator } = form;
-
+  const patient = medicalRecord.patient && medicalRecord.patient.id > 0 ?
+    medicalRecord.patient : { id: undefined };
   return (
     <Modal
       visible={visible}
@@ -25,14 +35,14 @@ const MedicalRecordWindow = ({ visible, onCancel, onCreate, form, medicalRecord 
             <Input />,
           )}
         </FormItem>
-        <FormItem label="Name">
-          {getFieldDecorator('name', {
-            initialValue: medicalRecord.name,
+        <FormItem label="Patient">
+          {getFieldDecorator('patient', {
+            initialValue: patient,
             rules: [
-              { required: true, message: 'Please input the name' },
+              { validator: checkPatient },
             ],
           })(
-            <Input />,
+            <PatientSelect />,
           )}
         </FormItem>
       </Form>
