@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu, Icon, Affix } from 'antd';
 import { Link } from 'react-router-dom';
 
 const { Header, Content } = Layout;
@@ -22,76 +22,85 @@ class Workspace extends Component {
               <span style={{ color: 'gray' }}> Clinic &trade;</span>
             </span>
           </div>
-          <div>
-            <Menu
-              onClick={this.handleClick}
-              selectedKeys={this.state.selectedKeys}
-              mode="horizontal"
-            >
-              <Menu.Item key="dashboard">
-                <Link
-                  to="/"
-                  onClick={() => {
-                    this.setState({
-                      selectedKeys: ['dashboard'],
-                    });
-                  }}
-                ><Icon type="pie-chart" />Dashboard</Link>
-              </Menu.Item>
-              <Menu.Item key="patients">
-                <Link
-                  to="/patients" onClick={() => {
-                    this.setState({
-                      selectedKeys: ['patients'],
-                    });
-                  }}
-                ><Icon type="contacts" />Patient</Link>
-              </Menu.Item>
-              <Menu.Item key="medicalRecords">
-                <Link to="/medicalrecords"><Icon type="profile" />Medical Records</Link>
-              </Menu.Item>
-              <SubMenu title={<span><Icon type="lock" />Security</span>}>
-                <Menu.Item key="users">
+          <Affix>
+            <div>
+              <Menu
+                onClick={this.handleClick}
+                selectedKeys={this.state.selectedKeys}
+                mode="horizontal"
+              >
+                <Menu.Item key="dashboard">
                   <Link
-                    to="/users"
+                    to="/"
                     onClick={() => {
                       this.setState({
-                        selectedKeys: ['users'],
+                        selectedKeys: ['dashboard'],
                       });
                     }}
-                  ><Icon type="user" />User</Link>
+                  ><Icon type="pie-chart" />Dashboard</Link>
                 </Menu.Item>
-                <Menu.Item key="roles">
+                <Menu.Item key="patients">
                   <Link
-                    to="/roles"
-                    onClick={() => {
+                    to="/patients" onClick={() => {
                       this.setState({
-                        selectedKeys: ['roles'],
+                        selectedKeys: ['patients'],
                       });
                     }}
-                  ><Icon type="idcard" />Roles</Link>
+                  ><Icon type="contacts" />Patient</Link>
                 </Menu.Item>
-              </SubMenu>
-              <SubMenu title={<span><Icon type="setting" />Settings</span>}>
-                <Menu.Item key="diseases">
-                  <Link to="/diseases"><Icon type="skin" />Diseases</Link>
+                <Menu.Item key="medicalRecords">
+                  <Link to="/medicalrecords"><Icon type="profile" />Medical Records</Link>
                 </Menu.Item>
-                <Menu.Item key="occupations">
-                  <Link to="/occupations"><Icon type="woman" />Occupations</Link>
-                </Menu.Item>
-                <Menu.Item key="insurances">
-                  <Link
-                    to="/insurances"
-                    onClick={() => {
-                      this.setState({
-                        selectedKeys: ['insurances'],
-                      });
-                    }}
-                  ><Icon type="medicine-box" />Insurances</Link>
-                </Menu.Item>
-              </SubMenu>
-            </Menu>
-          </div>
+                <SubMenu title={<span><Icon type="lock" />Security</span>}>
+                  <Menu.Item key="users">
+                    <Link
+                      to="/users"
+                      onClick={() => {
+                        this.setState({
+                          selectedKeys: ['users'],
+                        });
+                      }}
+                    ><Icon type="user" />User</Link>
+                  </Menu.Item>
+                  <Menu.Item key="roles">
+                    <Link
+                      to="/roles"
+                      onClick={() => {
+                        this.setState({
+                          selectedKeys: ['roles'],
+                        });
+                      }}
+                    ><Icon type="idcard" />Roles</Link>
+                  </Menu.Item>
+                </SubMenu>
+                <SubMenu title={<span><Icon type="setting" />Settings</span>}>
+                  <Menu.Item key="diseases">
+                    <Link to="/diseases"><Icon type="skin" />Diseases</Link>
+                  </Menu.Item>
+                  <Menu.Item key="occupations">
+                    <Link
+                      to="/occupations"
+                      onClick={() => {
+                        this.setState({
+                          selectedKeys: ['occupations'],
+                        });
+                      }}
+                    ><Icon type="woman" />Occupation</Link>
+                  </Menu.Item>
+                  <Menu.Item key="insurances">
+                    <Link
+                      to="/insurances"
+                      onClick={() => {
+                        this.setState({
+                          selectedKeys: ['insurances'],
+                        });
+                      }}
+                    ><Icon type="medicine-box" />Insurances</Link>
+                  </Menu.Item>
+                </SubMenu>
+              </Menu>
+            </div>
+          </Affix>
         </Header>
         <Content style={{ backgroundColor: '#FFF' }}>
           {this.props.children}

@@ -11,6 +11,7 @@ import Workspace from './components/workspace/Workspace';
 import UserPage from './components/user/UserPage';
 import RolePage from './components/role/RolePage';
 import InsurancePage from './components/insurance/InsurancePage';
+import OccupationPage from './components/occupation/OccupationPage';
 
 // class App extends Component {
 //   render() {
@@ -37,6 +38,7 @@ export default () => (
         <Route exact path="/users" component={UserPage} />
         <Route exact path="/roles" component={RolePage} />
         <Route exact path="/insurances" component={InsurancePage} />
+        <Route exact path="/occupations" component={OccupationPage} />
       </Workspace>
     </Router>
   </div>
