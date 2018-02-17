@@ -2,38 +2,38 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Table, Button, Input, Row, Col, message, Popconfirm } from 'antd';
 import constant from '../../constant';
-import OccupationWindow from './OccupationWindow';
+import DiseaseWindow from './DiseaseWindow';
 
-const OCCUPATIONS_URL = `${constant.serverUrl}/occupations`;
+const DISEASES_URL = `${constant.serverUrl}/diseases`;
 const Column = Table.Column;
 
-class OccupationList extends Component {
+class DiseaseList extends Component {
   state = {
     searchText: '',
-    occupation: {},
-    occupations: [],
+    disease: {},
+    diseases: [],
     loading: false,
     count: 0,
     currentPage: 1,
     pageSize: 10,
-    occupationWindowVisible: false,
+    diseaseWindowVisible: false,
   }
   componentDidMount() {
-    this.getOccupations();
+    this.getDiseases();
   }
 
-  getOccupations() {
+  getDiseases() {
     this.setState({
       loading: true,
     });
-    axios.get(OCCUPATIONS_URL, { params: {
+    axios.get(DISEASES_URL, { params: {
       searchText: this.state.searchText,
       start: (this.state.currentPage - 1) * this.state.pageSize,
       count: this.state.pageSize,
     } })
       .then((response) => {
         this.setState({
-          occupations: response.data.occupations,
+          diseases: response.data.diseases,
           count: response.data.count,
           loading: false,
         });
@@ -43,20 +43,20 @@ class OccupationList extends Component {
       });
   }
 
-  filterOccupations() {
+  filterDiseases() {
     this.setState({
       currentPage: 1,
-    }, () => { this.getOccupations(); });
+    }, () => { this.getDiseases(); });
   }
 
-  saveOccupation(occupation) {
+  saveDisease(disease) {
     const hide = message.loading('Action in progress..', 0);
-    axios.post(OCCUPATIONS_URL, occupation)
+    axios.post(DISEASES_URL, disease)
       .then(() => {
         hide();
         this.handleCancel();
-        this.getOccupations();
-        message.success('Save occupation success');
+        this.getDiseases();
+        message.success('Save disease success');
       })
       .catch((error) => {
         hide();
@@ -64,13 +64,13 @@ class OccupationList extends Component {
       });
   }
 
-  deleteOccupation(occupation) {
+  deleteDisease(disease) {
     const hide = message.loading('Action in progress..', 0);
-    axios.delete(`${OCCUPATIONS_URL}/${occupation.code}`)
+    axios.delete(`${DISEASES_URL}/${disease.code}`)
       .then(() => {
         hide();
-        this.getOccupations();
-        message.success('Delete occupation success');
+        this.getDiseases();
+        message.success('Delete disease success');
       })
       .catch((error) => {
         hide();
@@ -80,35 +80,35 @@ class OccupationList extends Component {
 
   openEditWindow(record) {
     this.setState({
-      occupation: record,
-      occupationWindowVisible: true,
+      disease: record,
+      diseaseWindowVisible: true,
     });
   }
 
   handleCancel() {
     this.setState({
-      occupationWindowVisible: false,
+      diseaseWindowVisible: false,
     });
-    this.occupationWindow.resetFields();
+    this.diseaseWindow.resetFields();
   }
 
   handleCreate() {
-    this.occupationWindow.validateFields((err, values) => {
+    this.diseaseWindow.validateFields((err, values) => {
       if (err) {
         return;
       }
 
       // console.log('Received values of form: ', values);
-      this.saveOccupation(values);
-      this.occupationWindow.resetFields();
-      this.setState({ occupationWindowVisible: false });
+      this.saveDisease(values);
+      this.diseaseWindow.resetFields();
+      this.setState({ diseaseWindowVisible: false });
     });
   }
 
   pageChanged(page) {
     this.setState({
       currentPage: page,
-    }, () => { this.getOccupations(); });
+    }, () => { this.getDiseases(); });
   }
 
   render() {
@@ -131,7 +131,7 @@ class OccupationList extends Component {
               <Button
                 shape="circle"
                 icon="search"
-                onClick={() => this.filterOccupations()}
+                onClick={() => this.filterDiseases()}
                 style={{ marginRight: 15 }}
               />
               <Button
@@ -146,7 +146,7 @@ class OccupationList extends Component {
         <Row>
           <Col span={24}>
             <Table
-              dataSource={this.state.occupations}
+              dataSource={this.state.diseases}
               style={{ marginTop: 20 }}
               rowKey="id"
               loading={this.state.loading}
@@ -180,8 +180,8 @@ class OccupationList extends Component {
                       style={{ marginRight: 5 }}
                     />
                     <Popconfirm
-                      title={`Are you sure delete occupation ${record.name}`}
-                      onConfirm={() => this.deleteOccupation(record)}
+                      title={`Are you sure delete disease ${record.name}`}
+                      onConfirm={() => this.deleteDisease(record)}
                       okText="Yes" cancelText="No"
                     >
                       <Button
@@ -197,16 +197,16 @@ class OccupationList extends Component {
           </Col>
         </Row>
 
-        <OccupationWindow
-          visible={this.state.occupationWindowVisible}
+        <DiseaseWindow
+          visible={this.state.diseaseWindowVisible}
           onCreate={() => this.handleCreate()}
           onCancel={() => this.handleCancel()}
-          occupation={this.state.occupation}
-          ref={occupationWindow => (this.occupationWindow = occupationWindow)}
+          disease={this.state.disease}
+          ref={diseaseWindow => (this.diseaseWindow = diseaseWindow)}
         />
       </div>
     );
   }
 }
 
-export default OccupationList;
+export default DiseaseList;
