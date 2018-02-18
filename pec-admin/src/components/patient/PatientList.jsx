@@ -26,11 +26,16 @@ class PatientList extends Component {
     this.setState({
       loading: true,
     });
-    axios.get(PATIENTS_URL, { params: {
-      searchText: this.state.searchText,
-      start: (this.state.currentPage - 1) * this.state.pageSize,
-      count: this.state.pageSize,
-    } })
+    axios.get(PATIENTS_URL, {
+      params: {
+        searchText: this.state.searchText,
+        start: (this.state.currentPage - 1) * this.state.pageSize,
+        count: this.state.pageSize,
+      },
+      headers: {
+        Authorization: `Bearer ${window.sessionStorage.getItem('token')}`,
+      },
+    })
       .then((response) => {
         this.setState({
           patients: response.data.patients,

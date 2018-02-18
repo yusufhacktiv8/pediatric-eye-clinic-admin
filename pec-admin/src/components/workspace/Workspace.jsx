@@ -112,6 +112,15 @@ class Workspace extends Component {
                       }}
                     ><Icon type="medicine-box" />Insurances</Link>
                   </Menu.Item>
+                  <Menu.Item key="insurances">
+                    <Link
+                      to="/"
+                      onClick={() => {
+                        window.sessionStorage.removeItem('token');
+                        window.location.href = '/';
+                      }}
+                    ><Icon type="logout" />Logout</Link>
+                  </Menu.Item>
                 </SubMenu>
               </Menu>
             </div>

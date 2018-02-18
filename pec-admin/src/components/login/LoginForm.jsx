@@ -1,7 +1,12 @@
 import React from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, notification } from 'antd';
+import axios from 'axios';
+
+import constant from '../../constant';
 
 const FormItem = Form.Item;
+
+const LOGIN_URL = `${constant.serverUrl}/authenticate`;
 
 class NormalLoginForm extends React.Component {
   handleSubmit = (e) => {
@@ -9,6 +14,42 @@ class NormalLoginForm extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        axios.post(LOGIN_URL, values)
+          .then((response) => {
+            const status = response.data.status;
+            const token = response.data.token;
+            if (typeof (Storage) !== 'undefined') {
+              if (status === 'LOGIN_ERROR') {
+                notification.error({
+                  message: 'Wrong username or password',
+                  description: '',
+                });
+              } else {
+                window.sessionStorage.setItem('token', token);
+                window.location.href = '/';
+              }
+            } else {
+                alert('Sorry! No Web Storage support..');
+            }
+          })
+          .catch((err2) => {
+            let errorMessage = '';
+            if (err2.response) {
+              if (err2.response.status === 500) {
+                errorMessage = 'Ex. wrong username or password';
+              } else {
+                errorMessage = `Status: ${err.response.status}`;
+              }
+            } else if (err2.request) {
+              errorMessage = 'Connection error.';
+            } else {
+              errorMessage = err.message;
+            }
+            notification.error({
+              message: 'Wrong username or password',
+              description: errorMessage,
+            });
+          });
       }
     });
   }
@@ -25,10 +66,10 @@ class NormalLoginForm extends React.Component {
           </span>
         </div>
         <FormItem>
-          {getFieldDecorator('userName', {
-            rules: [{ required: true, message: 'Please input your username!' }],
+          {getFieldDecorator('email', {
+            rules: [{ required: true, message: 'Please input your email!' }],
           })(
-            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Email" />
           )}
         </FormItem>
         <FormItem>
