@@ -180,7 +180,7 @@ class MedicalRecordList extends Component {
                       style={{ marginRight: 5 }}
                     />
                     <Popconfirm
-                      title={`Are you sure delete medicalRecord ${record.name}`}
+                      title={`Are you sure delete medicalRecord ${record.code}`}
                       onConfirm={() => this.deleteMedicalRecord(record)}
                       okText="Yes" cancelText="No"
                     >
