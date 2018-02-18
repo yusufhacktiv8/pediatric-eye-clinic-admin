@@ -49,3 +49,15 @@
   top: 0;
   text-align: left;
 }
+
+.login-form {
+  max-width: 330px;
+  margin: auto;
+  padding: 120px 0;
+}
+.login-form-forgot {
+  float: right;
+}
+.login-form-button {
+  width: 100%;
+}

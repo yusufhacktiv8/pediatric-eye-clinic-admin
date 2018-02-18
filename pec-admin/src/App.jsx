@@ -15,6 +15,7 @@ import OccupationPage from './components/occupation/OccupationPage';
 import DiseasePage from './components/disease/DiseasePage';
 import PatientPage from './components/patient/PatientPage';
 import MedicalRecordPage from './components/medicalrecord/MedicalRecordPage';
+import LoginForm from './components/login/LoginForm';
 
 // class App extends Component {
 //   render() {
@@ -33,8 +34,10 @@ import MedicalRecordPage from './components/medicalrecord/MedicalRecordPage';
 //   }
 // }
 
-export default () => (
-  <div className="App">
+export default () => {
+  const token = window.sessionStorage.getItem('token');
+
+  let componentToRender = (
     <Router>
       <Workspace>
         <Route exact path="/" component={UserPage} />
@@ -47,5 +50,17 @@ export default () => (
         <Route exact path="/medicalrecords" component={MedicalRecordPage} />
       </Workspace>
     </Router>
-  </div>
-);
+  );
+
+  if (!token) {
+    componentToRender = (
+      <LoginForm />
+    );
+  }
+
+  return (
+    <div className="App">
+      {componentToRender}
+    </div>
+  );
+};
