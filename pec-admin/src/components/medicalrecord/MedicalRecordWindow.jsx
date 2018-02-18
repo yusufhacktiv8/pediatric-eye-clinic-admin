@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal, Form, Input, InputNumber, Select, Tabs, Row, Col } from 'antd';
+import { Modal, Form, Input, InputNumber, Select, DatePicker, Tabs, Row, Col } from 'antd';
+import moment from 'moment';
 import PatientSelect from '../patient/PatientSelect';
 
 const FormItem = Form.Item;
@@ -50,6 +51,16 @@ const MedicalRecordWindow = ({ visible, onCancel, onCreate, form, medicalRecord 
                 ],
               })(
                 <PatientSelect />,
+              )}
+            </FormItem>
+            <FormItem label="Record Date">
+              {getFieldDecorator('recordDate', {
+                initialValue: moment(medicalRecord.recordDate),
+                rules: [
+                  { required: true, message: 'Please input record date' },
+                ],
+              })(
+                <DatePicker />,
               )}
             </FormItem>
           </TabPane>
@@ -176,7 +187,129 @@ const MedicalRecordWindow = ({ visible, onCancel, onCreate, form, medicalRecord 
               </Col>
             </Row>
           </TabPane>
+
           <TabPane tab="OS" key="3">
+            <Row gutter={15}>
+              <Col span={12}>
+                <FormItem label="Corneal Diameter">
+                  {getFieldDecorator('cornealDiameter2', {
+                    initialValue: medicalRecord.cornealDiameter2,
+                  })(
+                    <Select>
+                      <Option value="H">Horizontal</Option>
+                      <Option value="V">Vertical</Option>
+                    </Select>,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={12}>
+                <FormItem label="Intraocular Pressure">
+                  {getFieldDecorator('intraocularPressure2', {
+                    initialValue: medicalRecord.intraocularPressure2,
+                  })(
+                    <InputNumber step={0.1} style={{ width: '60%' }} />,
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={12}>
+                <FormItem label="Axial Length">
+                  {getFieldDecorator('axialLength2', {
+                    initialValue: medicalRecord.axialLength2,
+                  })(
+                    <InputNumber step={0.1} style={{ width: '60%' }} />,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row gutter={15}>
+              <Col span={12}>
+                <FormItem label="Refraksi">
+                  {getFieldDecorator('refraksi2', {
+                    initialValue: medicalRecord.refraksi2,
+                  })(
+                    <Select>
+                      <Option value="S">Spheris</Option>
+                      <Option value="C">Cylindar</Option>
+                      <Option value="A">Axis</Option>
+                    </Select>,
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={12}>
+                <FormItem label="Axis">
+                  {getFieldDecorator('axis2', {
+                    initialValue: medicalRecord.axis2,
+                  })(
+                    <InputNumber step={0.1} style={{ width: '60%' }} />,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row gutter={15}>
+              <Col span={12}>
+                <FormItem label="IOL Type">
+                  {getFieldDecorator('iOLType2', {
+                    initialValue: medicalRecord.iOLType2,
+                  })(
+                    <Select>
+                      <Option value="F">Foldable</Option>
+                      <Option value="P">PMMA</Option>
+                    </Select>,
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={12}>
+                <FormItem label="IOL Power">
+                  {getFieldDecorator('iOLPower2', {
+                    initialValue: medicalRecord.iOLPower2,
+                  })(
+                    <InputNumber step={0.1} style={{ width: '60%' }} />,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row gutter={15}>
+              <Col span={12}>
+                <FormItem label="Keratometri">
+                  {getFieldDecorator('keratometri2', {
+                    initialValue: medicalRecord.keratometri2,
+                  })(
+                    <Select>
+                      <Option value="K1">K1</Option>
+                      <Option value="K2">K2</Option>
+                    </Select>,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row gutter={15}>
+              <Col span={12}>
+                <FormItem label="Pre Op Visual Acuity">
+                  {getFieldDecorator('preOpVisualAcuity2', {
+                    initialValue: medicalRecord.preOpVisualAcuity2,
+                  })(
+                    <Select>
+                      <Option value="OD">OD</Option>
+                      <Option value="OS">OS</Option>
+                    </Select>,
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={12}>
+                <FormItem label="Post Op Visual Acuity">
+                  {getFieldDecorator('postOpVisualAcuity2', {
+                    initialValue: medicalRecord.postOpVisualAcuity2,
+                  })(
+                    <Select>
+                      <Option value="OD">OD</Option>
+                      <Option value="OS">OS</Option>
+                    </Select>,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
           </TabPane>
         </Tabs>
       </Form>
